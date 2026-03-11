@@ -1,104 +1,328 @@
-/* CSS Variables for Theme Management */
+/* ============================================================
+   NoteEase - Retro Theme Design System
+   ============================================================ */
+
+/* Import monospace font */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=VT323&display=swap');
+
+/* ============================================================
+   CSS Custom Properties (Design Tokens)
+   ============================================================ */
+
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+    /* Fonts */
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --font-display: 'VT323', monospace;
+
+    /* Light theme (default) */
+    --bg-app: #f0ede8;
+    --topbar-bg: #1a1a2e;
+    --sidebar-bg: #16213e;
+    --panel-bg: #faf8f5;
+    --panel-header-bg: #f0ede8;
+    --editor-bg: #fffef9;
+    --toolbar-bg: #f5f3ef;
+    --dropdown-bg: #ffffff;
+    --card-hover-bg: #ede9e3;
+    --card-active-bg: #e3dfd8;
+    --card-pinned-bg: #fff8ec;
+    --input-bg: #ffffff;
+
+    /* Text */
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a6a;
+    --text-muted: #9090a8;
+    --sidebar-text: #b0b8d0;
+    --sidebar-text-active: #ffffff;
+
+    /* Accent colors - retro green/amber on dark */
+    --accent-primary: #2d6a4f;
+    --accent-secondary: #52b788;
+    --accent-primary-rgb: 45, 106, 79;
+    --accent-secondary-rgb: 82, 183, 136;
+
+    /* UI Colors */
+    --border-color: #d4cfc8;
+    --error-color: #c0392b;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+
+    /* Button */
+    --btn-text: #ffffff;
+
+    /* Tags */
+    --tag-bg: rgba(45, 106, 79, 0.1);
+    --tag-color: #2d6a4f;
+    --tag-border: rgba(45, 106, 79, 0.3);
+
+    /* Glow effect */
+    --glow-color: rgba(45, 106, 79, 0.4);
 }
 
+/* Dark theme */
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+    --bg-app: #0a0a12;
+    --topbar-bg: #0d0d1a;
+    --sidebar-bg: #0d0d1a;
+    --panel-bg: #12121e;
+    --panel-header-bg: #0f0f1a;
+    --editor-bg: #14141f;
+    --toolbar-bg: #0f0f1a;
+    --dropdown-bg: #1a1a2e;
+    --card-hover-bg: #1c1c2e;
+    --card-active-bg: #222235;
+    --card-pinned-bg: #1a1810;
+    --input-bg: #1a1a2e;
+
+    /* Text */
+    --text-primary: #e0e0f0;
+    --text-secondary: #a0a0c0;
+    --text-muted: #606080;
+    --sidebar-text: #8080a0;
+    --sidebar-text-active: #e0e0f0;
+
+    /* Accent - retro amber/green terminal style */
+    --accent-primary: #52b788;
+    --accent-secondary: #95d5b2;
+    --accent-primary-rgb: 82, 183, 136;
+    --accent-secondary-rgb: 149, 213, 178;
+
+    /* UI Colors */
+    --border-color: #2a2a40;
+    --error-color: #ff4444;
+    --success-color: #52b788;
+    --warning-color: #f39c12;
+
+    /* Tags */
+    --tag-bg: rgba(82, 183, 136, 0.12);
+    --tag-color: #95d5b2;
+    --tag-border: rgba(82, 183, 136, 0.3);
+
+    /* Glow */
+    --glow-color: rgba(82, 183, 136, 0.5);
 }
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* ============================================================
+   Base Reset & Global Styles
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+    font-family: var(--font-mono);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* ============================================================
+   App Layout
+   ============================================================ */
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+/* ============================================================
+   Scrollbar Styling
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 3px;
+    opacity: 0.6;
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
+::-webkit-scrollbar-thumb:hover {
+    opacity: 1;
+}
+
+/* ============================================================
+   Selection Styling
+   ============================================================ */
+
+::selection {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+}
+
+/* ============================================================
+   Focus Visible
+   ============================================================ */
+
+:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================================
+   Confirmation Dialog
+   ============================================================ */
+
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.confirm-dialog {
+    background: var(--dropdown-bg);
+    border: 2px solid var(--accent-primary);
+    border-radius: 4px;
+    padding: 28px 32px;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
+    font-family: var(--font-mono);
+}
+
+.confirm-dialog h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.confirm-dialog p {
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.confirm-btn-cancel {
     padding: 8px 16px;
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
     font-size: 12px;
-  }
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+}
+
+.confirm-btn-cancel:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.confirm-btn-delete {
+    padding: 8px 16px;
+    background-color: var(--error-color);
+    border: none;
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: opacity 0.15s ease;
+}
+
+.confirm-btn-delete:hover {
+    opacity: 0.85;
+}
+
+/* ============================================================
+   Toast notifications
+   ============================================================ */
+
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toast {
+    padding: 10px 16px;
+    background: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-primary);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    animation: toastIn 0.2s ease;
+    max-width: 300px;
+}
+
+.toast.error {
+    border-left-color: var(--error-color);
+}
+
+.toast.success {
+    border-left-color: var(--success-color);
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .app-body {
+        flex-direction: column;
+    }
 }
